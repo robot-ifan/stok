@@ -1,0 +1,139 @@
+<div class="card p-2 pt-2 bg-white shadow-lg mr-2 ml-2 mt-2">
+        <div class="row">
+        
+            <div class="col-6 ">
+                <div class="form-group">
+                    <label for="txt_periode">Periode</label>
+                    <input type="text" class="form-control" [options]="dt_range_options" daterangepicker (selected)="selectedDate($event, daterange)">
+                </div>
+        
+                <div class="form-group">
+                    <label for="filter_1">Customer</label>
+                    <ng-select 
+        
+                            [items]="data_item"
+        
+                            bindLabel="item"
+        
+                            placeholder="Select menu"
+        
+                            [multiple]="false"
+        
+                            [(ngModel)]="selected_item"
+                            
+                            > 
+                        </ng-select>
+                </div>
+            </div>
+        
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="filter_1">cabang</label>
+                    <select name="select_customer"  id="" class="form-control" (click)="set_cabang($event)">
+                        <!-- <option value="null">semua</option> -->
+                        <option *ngFor="let val of data_cabang" value="{{val.id}}" >{{val.cabang}}</option>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label for="filter_1">gudanng</label>
+                    <select name="select_customer"  id="" class="form-control" (click)="set_gudang($event)" placeholder="pilih gudang">
+                        <!-- <option value="null">semua</option> -->
+                        <option *ngFor="let val of data_gudang" value="{{val.id}}" >{{val.gudang}}</option>
+                    </select>
+                </div>
+            </div>
+            
+            
+        </div>
+    
+    <div class="row">
+        <!-- <div class="col-6"></div> -->
+        <div class="form-group col-12 text-center">
+            <!-- <button type="button" class="btn btn-warning ml-1">reset filter</button> -->
+            <button type="button" class="btn btn-primary ml-3" (click)="get_all()">tampilkan</button>
+        </div>
+        <!-- <button>reset filter</button> -->
+    </div>
+</div>
+
+<div class="card p-2 pt-4 bg-white shadow-lg mr-2 ml-2">
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover">
+            <thead class="text-center thead-dark">
+                <tr>
+                    <th rowspan="2">tanggal</th>
+                    <th rowspan="2">no referensi</th>
+                    <th rowspan="2">keterangan</th>
+                    <th colspan="3">masuk</th>
+                    <th colspan="3">keluar</th>
+                    <th colspan="3">saldo</th>
+                </tr>
+                <tr>
+                    <th>jumlah</th>
+                    <th>harga</th>
+                    <th>saldo</th>
+
+                    <th>jumlah</th>
+                    <th>harga</th>
+                    <th>saldo</th>
+
+                    <th>jumlah</th>
+                    <th>harga</th>
+                    <th>saldo</th>
+
+                </tr>
+                
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let itm of saldo_awal">
+                    <td>{{itm.tanggal}}</td>
+                    <td colspan="2">saldo awal</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{itm.jumlah}} PCS</td>
+                    <td>{{itm.harga | currency:'Rp.':'symbol'}}</td>
+                    <td>{{itm.saldo | currency:'Rp.':'symbol'}}</td>
+
+                </tr>
+
+                <tr *ngFor="let val of data_all">
+                    
+                    <td>{{val.tanggal}}</td>
+                    <td>{{val.no_referensi}}</td>
+                    <td>{{val.keterangan}}</td>
+
+                    <!-- masuk -->
+                    <ng-container *ngIf="val.masuk != [];">
+                        <td>{{val.masuk['jumlah']}} {{val.masuk['label']}} </td>
+                        <td>{{val.masuk['harga'] | currency:'Rp.':'symbol'}}</td>
+                        <td>{{val.masuk['saldo'] | currency:'Rp.':'symbol'}}</td>
+                    </ng-container>
+
+                    <!-- keluar -->
+                    <ng-container *ngIf="val.keluar != []">
+                        <td>{{val.keluar['jumlah']}} {{val.keluar['label']}}</td>
+                        <td>{{val.keluar['harga'] | currency:'Rp.':'symbol'}}</td>
+                        <td>{{val.keluar['saldo'] | currency:'Rp.':'symbol'}}</td>
+                    </ng-container>
+
+
+                    <!-- saldo -->
+                    <ng-container *ngIf="val.saldo != []">
+                        <td>{{val.saldo['jumlah']}} PCS</td>
+                        <td>{{val.saldo['harga'] | currency:'Rp.':'symbol'}}</td>
+                        <td>{{val.saldo['saldo'] | currency:'Rp.':'symbol'}}</td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
